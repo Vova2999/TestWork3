@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\Server.Common\Server.Common.csproj" />
+    <ProjectReference Include="..\Server.Database\Server.Database.csproj" />
+    <ProjectReference Include="..\Server.Domain\Server.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
