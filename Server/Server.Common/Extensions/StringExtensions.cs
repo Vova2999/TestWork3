@@ -18,4 +18,14 @@ public static class StringExtensions
     {
         return str ?? string.Empty;
     }
+
+    public static bool IsEquals(this string? source, string? searchString)
+    {
+        return string.Equals(source, searchString, StringComparison.Ordinal);
+    }
+
+    public static bool IsEqualsIgnoreCase(this string? source, string? searchString)
+    {
+        return string.Equals(source, searchString, StringComparison.OrdinalIgnoreCase);
+    }
 }

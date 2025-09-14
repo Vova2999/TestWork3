@@ -1,10 +1,15 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using NSwag;
 using NSwag.Annotations;
+using NSwag.Generation.Processors.Security;
 using Server.Authentication;
 using Server.Common.Extensions;
+using Server.Converters;
 using Server.Exceptions;
 using Server.Services.Migrations;
 using Server.Services.Startup;
@@ -29,7 +34,24 @@ public static class Program
             .AddControllers(options =>
                 options.AllowEmptyInputInBodyModelBinding = true)
             .ConfigureApiBehaviorOptions(options =>
-                options.SuppressModelStateInvalidFilter = true);
+                options.SuppressModelStateInvalidFilter = true)
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.Converters.Add(new CommandDtoJsonConverter());
+                options.JsonSerializerOptions.Converters.Add(new CommandResultDtoJsonConverter());
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
+
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 5;
+            options.Password.RequiredUniqueChars = 1;
+        });
 
         builder.Services
             .AddOpenApiDocument(settings =>
@@ -37,6 +59,18 @@ public static class Program
                 settings.DocumentName = "Server";
                 settings.Title = "Server";
                 settings.Description = "API documentation";
+
+                settings.AddSecurity(
+                    Constants.Basic,
+                    [],
+                    new OpenApiSecurityScheme
+                    {
+                        Type = OpenApiSecuritySchemeType.Http,
+                        Scheme = Constants.Basic,
+                        Description = "Enter your username and password for Basic Authentication"
+                    });
+
+                settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor(Constants.Basic));
             });
 
         builder.Services.AddProblemDetails();
@@ -59,7 +93,7 @@ public static class Program
             app.UseOpenApi();
             app.UseSwaggerUi();
 
-            app.MapGet("/", [OpenApiIgnore] () => Results.Redirect("/swagger"));
+            app.MapGet("/", [OpenApiIgnore]() => Results.Redirect("/swagger"));
         }
 
         app.MapControllers();
