@@ -13,4 +13,10 @@ public static class EnumerableExtensions
     {
         return values != null && values.Any();
     }
+
+    public static void ForEach<TValue>(this IEnumerable<TValue> values, Action<TValue> action)
+    {
+        foreach (var value in values)
+            action(value);
+    }
 }

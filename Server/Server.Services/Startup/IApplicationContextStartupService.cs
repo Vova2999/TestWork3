@@ -3,4 +3,5 @@
 public interface IApplicationContextStartupService
 {
     Task InitializeUsersAsync();
+    Task CreateOtherDataAsync();
 }

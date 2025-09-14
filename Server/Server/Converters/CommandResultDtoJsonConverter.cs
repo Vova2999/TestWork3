@@ -21,7 +21,7 @@ public class CommandResultDtoJsonConverter : JsonConverter<CommandResultDto>
             .Where(type => type.IsSubclassOf(typeof(CommandResultDataDto)))
             .Select(type => new { Type = type, Attribute = type.GetCustomAttribute<CommandResultDataForAttribute>() })
             .Where(typeWithAttribute => typeWithAttribute.Attribute != null)
-            .ToDictionary(typeWithAttribute => typeWithAttribute.Attribute!.Command, typeWithAttribute => typeWithAttribute.Type);
+            .ToDictionary(typeWithAttribute => typeWithAttribute.Attribute!.Command.ToLower(), typeWithAttribute => typeWithAttribute.Type);
 
         CommandResultDataDtoPropertyNamesCache = new ConcurrentDictionary<(string, JsonNamingPolicy?), string>();
     }
@@ -42,7 +42,7 @@ public class CommandResultDtoJsonConverter : JsonConverter<CommandResultDto>
             if (commandResultDto == null || dataNode == null || commandResultDto.Command.IsNullOrEmpty())
                 return commandResultDto;
 
-            if (!CommandToResultDataType.TryGetValue(commandResultDto.Command, out var dataType))
+            if (!CommandToResultDataType.TryGetValue(commandResultDto.Command.ToLower(), out var dataType))
                 return commandResultDto;
 
             commandResultDto.Data = dataNode.Deserialize(dataType, options) as CommandResultDataDto;

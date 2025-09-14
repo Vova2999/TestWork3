@@ -81,7 +81,7 @@ public static class Program
         var app = builder.Build();
 
         await ApplyMigrationsAsync(app);
-        InitializeUsersAsync(app).FireAndForgetSafeAsync();
+        InitializeUsersAndDataAsync(app).FireAndForgetSafeAsync();
 
         app.UseExceptionHandler();
 
@@ -111,7 +111,7 @@ public static class Program
         await applicationContextMigrationsService.ApplyMigrationsAsync();
     }
 
-    private static async Task InitializeUsersAsync(IHost app)
+    private static async Task InitializeUsersAndDataAsync(IHost app)
     {
         using var scope = app.Services.CreateScope();
 
@@ -119,5 +119,6 @@ public static class Program
             .GetRequiredService<IApplicationContextStartupService>();
 
         await applicationContextStartupService.InitializeUsersAsync();
+        await applicationContextStartupService.CreateOtherDataAsync();
     }
 }

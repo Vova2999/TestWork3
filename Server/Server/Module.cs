@@ -4,6 +4,9 @@ using Server.Database.Helpers;
 using Server.Domain.Entities;
 using Server.Extensions;
 using Server.Services.Managers;
+using Server.Services.Command;
+using Server.Services.CommandParameters;
+using Server.Services.CommandParameters.Handlers;
 using Server.Services.Migrations;
 using Server.Services.Startup;
 using Server.Services.Stores;
@@ -31,5 +34,9 @@ public static class Module
         service.AddScoped<IApplicationContextMigrationsService, ApplicationContextMigrationsService>();
 
         service.AddIdentityCore<User>().AddUserStore<ApplicationContextUserStore>();
+
+        service.AddScoped<ICommandHandler, CommandHandler>();
+        service.AddScoped<ICommandParametersHandler, GetMenuCommandParametersHandler>();
+        service.AddScoped<ICommandParametersHandler, SendOrderCommandParametersHandler>();
     }
 }

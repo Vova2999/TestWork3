@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Domain.Dtos;
-using Server.Domain.Dtos.CommandResultData;
-using Server.Domain.Extensions;
+using Server.Services.Command;
 
 namespace Server.Controllers.Api;
 
@@ -13,9 +12,16 @@ namespace Server.Controllers.Api;
 [Produces(MediaTypeNames.Application.Json)]
 public class MenuController : ControllerBase
 {
-    [HttpPost]
-    public CommandResultDto Post([FromBody] CommandDto command)
+    private readonly ICommandHandler _commandHandler;
+
+    public MenuController(ICommandHandler commandHandler)
     {
-        return new GetMenuCommandResultDataDto { MenuItems = new[] { new MenuItemDto { Id = "123" } } }.ToSuccessResultDto();
+        _commandHandler = commandHandler;
+    }
+
+    [HttpPost]
+    public async Task<CommandResultDto> PostAsync([FromBody] CommandDto command)
+    {
+        return await _commandHandler.HandleAsync(command);
     }
 }

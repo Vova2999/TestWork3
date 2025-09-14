@@ -6,4 +6,5 @@ public class OrderMenuItem
     public Order Order { get; set; }
     public string MenuItemId { get; set; }
     public MenuItem MenuItem { get; set; }
+    public decimal Quantity { get; set; }
 }

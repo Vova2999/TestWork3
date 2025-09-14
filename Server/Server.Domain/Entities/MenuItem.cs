@@ -12,7 +12,7 @@ public class MenuItem
     public decimal Price { get; set; }
     public bool IsWeighted { get; set; }
     public string FullPath { get; set; }
-    public ICollection<string> Barcodes { get; set; }
+    public List<string> Barcodes { get; set; }
 
     public ICollection<OrderMenuItem> OrderMenuItems { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -21,7 +22,7 @@ namespace Server.Database.Migrations
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     IsWeighted = table.Column<bool>(type: "boolean", nullable: false),
                     FullPath = table.Column<string>(type: "text", nullable: false),
-                    Barcodes = table.Column<string[]>(type: "text[]", nullable: false)
+                    Barcodes = table.Column<List<string>>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +45,8 @@ namespace Server.Database.Migrations
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MenuItemId = table.Column<string>(type: "text", nullable: false)
+                    MenuItemId = table.Column<string>(type: "text", nullable: false),
+                    Quantity = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
