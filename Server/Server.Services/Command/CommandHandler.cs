@@ -12,16 +12,16 @@ public class CommandHandler : ICommandHandler
         _commandParametersHandlers = commandParametersHandlers.ToDictionary(handler => handler.CommandParametersDtoType);
     }
 
-    public async Task<CommandResultDto> HandleAsync(CommandDto command)
+    public async Task<CommandResultDto> HandleAsync(CommandDto? command)
     {
-        if (command.CommandParameters != null && _commandParametersHandlers.TryGetValue(command.CommandParameters.GetType(), out var handler))
+        if (command?.CommandParameters != null && _commandParametersHandlers.TryGetValue(command.CommandParameters.GetType(), out var handler))
             return await handler.HandleAsync(command.CommandParameters);
 
         return new CommandResultDto
         {
-            Command = command.Command,
+            Command = command?.Command,
             Success = false,
-            ErrorMessage = $"Not found handler for command {command.Command}"
+            ErrorMessage = $"Not found handler for command {command?.Command ?? "Unknown"}"
         };
     }
 }

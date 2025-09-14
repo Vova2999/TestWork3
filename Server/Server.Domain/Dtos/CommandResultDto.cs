@@ -6,7 +6,7 @@ namespace Server.Domain.Dtos;
 
 public class CommandResultDto
 {
-    public string Command { get; set; }
+    public string? Command { get; set; }
     public bool Success { get; set; }
     public string? ErrorMessage { get; set; }
     public CommandResultDataDto? Data { get; set; }

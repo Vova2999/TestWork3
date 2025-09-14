@@ -20,7 +20,7 @@ public class MenuController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<CommandResultDto> PostAsync([FromBody] CommandDto command)
+    public async Task<CommandResultDto> PostAsync([FromBody] CommandDto? command)
     {
         return await _commandHandler.HandleAsync(command);
     }
