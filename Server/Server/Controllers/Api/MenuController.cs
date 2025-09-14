@@ -6,7 +6,7 @@ using Server.Services.Command;
 
 namespace Server.Controllers.Api;
 
-[AllowAnonymous]
+[Authorize]
 [ApiController]
 [Route("api/menu")]
 [Produces(MediaTypeNames.Application.Json)]
