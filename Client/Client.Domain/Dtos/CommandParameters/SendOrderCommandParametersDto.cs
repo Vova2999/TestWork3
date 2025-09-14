@@ -2,9 +2,9 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-using Server.Domain.Attributes;
+using Client.Domain.Attributes;
 
-namespace Server.Domain.Dtos.CommandParameters;
+namespace Client.Domain.Dtos.CommandParameters;
 
 [CommandParametersFor("SendOrder")]
 public class SendOrderCommandParametersDto : CommandParametersDto
