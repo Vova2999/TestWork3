@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>True</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ApplicationDefinition Remove="App.xaml" />
+		<None Remove="APP.CSPROJ~RFE6B6A03.TMP.tmp" />
+		<Page Include="App.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Grace" Version="7.2.1" />
+		<PackageReference Include="Grace.Factory" Version="7.2.1" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\App.Common\App.Common.csproj" />
+		<ProjectReference Include="..\App.Wpf.Common\App.Wpf.Common.csproj" />
+	</ItemGroup>
+
+</Project>
