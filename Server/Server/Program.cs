@@ -11,6 +11,7 @@ using Server.Authentication;
 using Server.Common.Extensions;
 using Server.Converters;
 using Server.Exceptions;
+using Server.Services.Grpc;
 using Server.Services.Migrations;
 using Server.Services.Startup;
 
@@ -42,6 +43,8 @@ public static class Program
                 options.JsonSerializerOptions.Converters.Add(new CommandResultDtoJsonConverter());
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
+
+        builder.Services.AddGrpc();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
@@ -85,8 +88,12 @@ public static class Program
 
         app.UseExceptionHandler();
 
+        app.UseHttpsRedirection();
+
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseGrpcWeb();
 
         if (app.Environment.IsDevelopment())
         {
@@ -97,6 +104,8 @@ public static class Program
         }
 
         app.MapControllers();
+
+        app.MapGrpcService<SmsTestGrpcService>().EnableGrpcWeb();
 
         await app.RunAsync();
     }
