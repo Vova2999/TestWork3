@@ -151,7 +151,7 @@ public partial class MainViewModel : ViewModel<MainWindow>
 
     private Task SaveEnvironmentVariablesAsync()
     {
-        var environmentVariables = EnvironmentVariables.Select(variable => variable.ToEntity()).ToArray();
+        var environmentVariables = EnvironmentVariables.DistinctBy(variable => variable.Key).Select(variable => variable.ToEntity()).ToArray();
         return _environmentVariablesProvider.SaveEnvironmentVariablesAsync(environmentVariables);
     }
 }

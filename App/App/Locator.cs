@@ -74,7 +74,7 @@ public static class Locator
         RegisterSingleton<IMessenger, WeakReferenceMessenger>(registration);
 
         RegisterSingleton<IEnvironmentVariablesProvider, EnvironmentVariablesProvider>(registration,
-            _ => new EnvironmentVariablesProvider(Constants.EnvironmentVariablesFileName));
+            scope => new EnvironmentVariablesProvider(Constants.EnvironmentVariablesFileName, scope.Locate<ILogger<EnvironmentVariablesProvider>>()));
     }
 
     private static void RegisterSingleton<TType>(IExportRegistrationBlock registrationBlock, TType? instance)
