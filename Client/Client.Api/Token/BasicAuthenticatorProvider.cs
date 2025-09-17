@@ -21,6 +21,6 @@ public class BasicAuthenticatorProvider : IAuthenticatorProvider
 
     public async Task<TResult> ExecuteWithAuthenticatorAsync<TResult>(Func<IAuthenticator, Task<TResult>> action)
     {
-        return await action(_authenticator ?? throw new InvalidOperationException("You must login before using the _authenticator"));
+        return await action(_authenticator ?? throw new InvalidOperationException($"You must login before using the {nameof(_authenticator)}"));
     }
 }

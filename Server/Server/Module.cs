@@ -35,8 +35,8 @@ public static class Module
 
         service.AddIdentityCore<User>().AddUserStore<ApplicationContextUserStore>();
 
-        service.AddScoped<ICommandHandler, CommandHandler>();
-        service.AddScoped<ICommandParametersHandler, GetMenuCommandParametersHandler>();
-        service.AddScoped<ICommandParametersHandler, SendOrderCommandParametersHandler>();
+        service.AddSingleton<ICommandHandler, CommandHandler>();
+        service.AddSingleton<ICommandParametersHandler, GetMenuCommandParametersHandler>();
+        service.AddSingleton<ICommandParametersHandler, SendOrderCommandParametersHandler>();
     }
 }
