@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Text;
 using App.Common.Extensions;
 using App.Extensions.Models;
 using App.Models;
@@ -99,9 +100,11 @@ public partial class MainViewModel : ViewModel<MainWindow>
                     if (environmentVariable.Key.IsNullOrEmpty() && environmentVariable.Value.IsNullOrEmpty())
                         _logger.LogInformation("Added new empty environment variable");
                     else
-                        _logger.LogInformation($"Added new environment variable with" +
-                            $" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'" +
-                            $" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'");
+                        _logger.LogInformation(new StringBuilder()
+                            .Append("Added new environment variable with")
+                            .Append($" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'")
+                            .Append($" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'")
+                            .ToString());
                 }
 
                 SaveEnvironmentVariablesAsync().FireAndForgetSafeAsync();
@@ -114,9 +117,11 @@ public partial class MainViewModel : ViewModel<MainWindow>
                     environmentVariable.PropertyChanging -= EnvironmentVariableChanging;
                     environmentVariable.PropertyChanged -= EnvironmentVariableChanged;
 
-                    _logger.LogInformation($"Remove environment variable with" +
-                        $" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'" +
-                        $" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'");
+                    _logger.LogInformation(new StringBuilder()
+                        .Append("Remove environment variable with")
+                        .Append($" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'")
+                        .Append($" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'")
+                        .ToString());
                 }
 
                 SaveEnvironmentVariablesAsync().FireAndForgetSafeAsync();
@@ -130,10 +135,12 @@ public partial class MainViewModel : ViewModel<MainWindow>
         if (sender is not EnvironmentVariableModel environmentVariable)
             return;
 
-        _logger.LogInformation($"Changing environment variable with" +
-            $" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'" +
-            $" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'." +
-            $" Updating property: {args.PropertyName}");
+        _logger.LogInformation(new StringBuilder()
+            .Append("Changing environment variable with")
+            .Append($" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'")
+            .Append($" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'.")
+            .Append($" Updating property: {args.PropertyName}")
+            .ToString());
     }
 
     private void EnvironmentVariableChanged(object? sender, PropertyChangedEventArgs args)
@@ -141,10 +148,12 @@ public partial class MainViewModel : ViewModel<MainWindow>
         if (sender is not EnvironmentVariableModel environmentVariable)
             return;
 
-        _logger.LogInformation($"Changed environment variable with" +
-            $" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'" +
-            $" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'." +
-            $" Updated property: {args.PropertyName}");
+        _logger.LogInformation(new StringBuilder()
+            .Append("Changed environment variable with")
+            .Append($" {nameof(EnvironmentVariableModel.Key)}: '{environmentVariable.Key}'")
+            .Append($" {nameof(EnvironmentVariableModel.Value)}: '{environmentVariable.Value}'.")
+            .Append($" Updated property: {args.PropertyName}")
+            .ToString());
 
         SaveEnvironmentVariablesAsync().FireAndForgetSafeAsync();
     }
